@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Painel · Sustentabilidade da Economia Orbital</title>
+
+    <!-- Biblioteca de gráficos -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@300;500;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+
+    <div class="wrap">
+      <div class="ring"><span class="dot"></span></div>
+      <p class="eyebrow">Análise Estatística · Data Science</p>
+      <h1>
+        Sustentabilidade da<br /><span class="acc">Economia Orbital</span>
+      </h1>
+      <p class="sub">
+        Painel exploratório sobre o ambiente orbital tratado como infraestrutura
+        econômica. Concentração, dispersão e anomalias estatísticas dos objetos
+        em órbita, conectadas ao risco operacional dos serviços que dependem de
+        satélites.
+      </p>
+      <div class="srcline" id="srcline"></div>
+
+      <div class="kpis" id="kpis"></div>
+
+      <!-- 1 concentração -->
+      <div class="sec">
+        <div class="sectitle">
+          <span class="n">01</span>
+          <h2>Concentração orbital</h2>
+          <span class="q">Pergunta 1 · 6</span>
+        </div>
+        <p class="secdesc">
+          Quais faixas orbitais e quais países concentram a maior quantidade de
+          objetos. Maior densidade indica maior risco operacional e maior
+          dependência econômica/tecnológica.
+        </p>
+        <div class="grid g2">
+          <div class="card">
+            <h3>Objetos por faixa orbital</h3>
+            <div class="cap">
+              contagem absoluta · LEO / MEO / GEO / Elíptica
+            </div>
+            <div class="chartbox"><canvas id="cOrbit"></canvas></div>
+          </div>
+          <div class="card">
+            <h3>Top países operadores</h3>
+            <div class="cap">país do operador/dono</div>
+            <div class="chartbox"><canvas id="cCountry"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 distribuições -->
+      <div class="sec">
+        <div class="sectitle">
+          <span class="n">02</span>
+          <h2>Distribuições e forma dos dados</h2>
+          <span class="q">Pergunta 3 · 6</span>
+        </div>
+        <p class="secdesc">
+          Histogramas das principais variáveis numéricas. A distância entre
+          média e mediana e o coeficiente de variação (CV) revelam assimetria e
+          dispersão — sinais de falta de padronização orbital.
+        </p>
+        <div class="grid g2b">
+          <div class="card">
+            <h3>Altitude média</h3>
+            <div class="cap">(apogeu+perigeu)/2 · km</div>
+            <div class="chartbox"><canvas id="hAlt"></canvas></div>
+            <div class="statrow" id="sAlt"></div>
+          </div>
+          <div class="card">
+            <h3>Inclinação</h3>
+            <div class="cap">graus</div>
+            <div class="chartbox"><canvas id="hIncl"></canvas></div>
+            <div class="statrow" id="sIncl"></div>
+          </div>
+          <div class="card">
+            <h3>Período orbital</h3>
+            <div class="cap">minutos (&lt;2000)</div>
+            <div class="chartbox"><canvas id="hPer"></canvas></div>
+            <div class="statrow" id="sPer"></div>
+          </div>
+          <div class="card">
+            <h3>Massa de lançamento</h3>
+            <div class="cap">kg (&lt;8000)</div>
+            <div class="chartbox"><canvas id="hMass"></canvas></div>
+            <div class="statrow" id="sMass"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 outliers -->
+      <div class="sec">
+        <div class="sectitle">
+          <span class="n">03</span>
+          <h2>Anomalias orbitais (outliers)</h2>
+          <span class="q">Pergunta 2 · 6</span>
+        </div>
+        <p class="secdesc">
+          Objetos com comportamento estatístico extremo, detectados por dois
+          métodos: IQR (Tukey, regra 1,5×) e Z-Score (|z| &gt; 3). Comportamento
+          extremo pode representar risco de colisão ou instabilidade.
+        </p>
+        <div class="outgrid" id="outliers"></div>
+      </div>
+
+      <!-- 4 correlação -->
+      <div class="sec">
+        <div class="sectitle">
+          <span class="n">04</span>
+          <h2>Relações entre variáveis</h2>
+          <span class="q">Pergunta 5 · 6</span>
+        </div>
+        <p class="secdesc">
+          Existe relação estatística entre altitude, velocidade, inclinação,
+          período e massa. O mapa de calor mostra a correlação de Pearson; o
+          gráfico de dispersão mostra a forte separação entre regimes orbitais
+          (LEO vs GEO) no plano apogeu × perigeu.
+        </p>
+        <div class="grid g2">
+          <div class="card">
+            <h3>Matriz de correlação</h3>
+            <div class="cap">Pearson · −1 a +1</div>
+            <div class="heat" id="heat"></div>
+          </div>
+          <div class="card">
+            <h3>Apogeu × Perigeu</h3>
+            <div class="cap">amostra de objetos · km</div>
+            <div class="chartbox tall"><canvas id="cScatter"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 instabilidade -->
+      <div class="sec">
+        <div class="sectitle">
+          <span class="n">05</span>
+          <h2>Índice de Instabilidade Orbital</h2>
+          <span class="q">Diferencial · Pergunta 6</span>
+        </div>
+        <p class="secdesc">
+          Métrica exploratória por faixa orbital: <b>concentração (40%)</b> +
+          <b>objetos envelhecidos/além da vida útil (25%)</b> +
+          <b>outliers detectados (25%)</b> + <b>dispersão da altitude (10%)</b>.
+          Quanto maior o índice, maior o risco potencial à sustentabilidade da
+          região.
+        </p>
+        <div class="idxgrid" id="idx"></div>
+      </div>
+
+      <div class="foot" id="foot"></div>
+    </div>
+
+    <!-- Scripts (ordem importa: dados -> config -> gráficos -> render -> main) -->
+    <script src="js/data.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/render.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
